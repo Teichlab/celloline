@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-__author__ = 'Tomislav Ilicic'
-__copyright__ = 'Copyright (C) 2015 Ambrose Carr'
-__license__ = 'MIT'
-__version__ = 0.0
+__author__ = 'Tomislav Ilicic & Frederik Otzen Bagger'
+__copyright__ = 'Copyright (C) 2015 Tomislav Ilicic'
+__license__ = 'GNU Public Licence'
+__version__ = 0.9
 
 import os
 import sys
@@ -51,7 +51,6 @@ def check_object_specified (type, object, objects_available):
             object = str(object)
             print_error(type + " \"" + object + "\" not available or not specified. Create or choose from:\n" + "\n".join(objects_available_num));
 
-print
 #TOP LEVEL FUNCTION EXECUTING THE PIPELINE
 def run(args):
 
@@ -132,7 +131,7 @@ def _write_mapping_stats(GTF_file, files_process_index, sorted_sam_files,  stats
     stats_output = stats_root + "/" + sample_name + "_{#}.stats"
 
     commands = [] 
-    commands.append("python /home/ubuntu/bin/generate_mapping_stats.py") # change  PATH
+    commands.append("python ./lib/stats.py") # change  PATH
     commands.append("-i")
     commands.append(sorted_sam_files)
     commands.append("-o")
@@ -205,7 +204,6 @@ def _run_quantification(quantifier, counts_dir, mapping_root, sample_name, files
     output_file = quant_output_dir + "/" + sample_name + "_" + quantifier.replace(".", "_")  + ConfigSectionMap("EXTENSIONS")['ext_counts']
     #If doesn't exist, create dir and run
     if(pre_checks(expected_output_counts) == False or overwrite == True or os.path.exists(output_file)==False):
-    if(pre_checks(expected_output_counts) == False or overwrite == True):
         make_dir(quant_output_dir)
         
         #Check if required sorted bam files exist
@@ -571,6 +569,8 @@ def exec_star_mapping(mapper, mapper_args, read_length, used_genome, files_index
     log_file1 = mapping_dir + "/" + sample_name + "_%I.mapping.log"
     output_sam_file = mapping_dir + "/" + sample_name + "_{#}" + ConfigSectionMap("EXTENSIONS")['ext_sam']
     commands.append(star)
+    commands.append("--outFileNamePrefix")
+    commands.append(mapping_dir + "/" + sample_name + "_{#}.")
     commands.append("--genomeDir")
     commands.append(genome_dir)
     commands.append("--readFilesIn")
@@ -588,14 +588,15 @@ def exec_star_mapping(mapper, mapper_args, read_length, used_genome, files_index
         f = TEMP.replace("{#}", str(i))
         if(os.path.isdir(f)):
             shutil.rmtree(f)
-    commands.append("--outTmpDir")
-    commands.append(TEMP)
+    #commands.append("--outTmpDir")
+    #commands.append(TEMP)
 
     options = convert_to_default_map_param(mapper_args)
     splice = "-splice" in options
 
     if (splice):
-       commands.append(GTF) 
+       commands.append("--sjdbGTFfile")
+       commands.append(GTF)
        options.remove("-splice")
 
     commands.append(" ".join(options))
