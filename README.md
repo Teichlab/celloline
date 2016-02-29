@@ -44,7 +44,8 @@ PREPROCESSED_ROOT = preprocessed   | *directory name for preprocessed files*
 SORTED_BAM_ROOT = sorted_bam       | *directory name for sorted bam files.*
 SAM_ROOT = sam                     | *directory name for samfiles*
 										
-[EXTENSIONS] | Help								
+[EXTENSIONS] | Help	
+--- | ---							
 EXT_BAM = .bam						| 	*bam file extention*
 EXT_FASTQ= .fq						|	*fastq file extention*
 EXT_FASTQ_GZ = .fq.gz				|	*compressed fastq file extention*	
@@ -65,6 +66,7 @@ FORWARD_STRAND = _1                | *Identifier used if analysing paired end re
 REVERSE_STRAND = _2                 | *Identifier used if analysing paired end reads.*
 
 [SOFTWARE] | Help
+--- | ---
 GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
 GSNAP_BUILD=/bin/gmap_build       | *-*
 BOWTIE1=/bowtie                   | *-*
