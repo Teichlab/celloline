@@ -1,4 +1,4 @@
-#!/usr/local/bin/ipython
+#!/usr/bin/python
 
 __author__ = 'Tomislav Ilicic'
 __copyright__ = 'Copyright (C) 2015 Ambrose Carr'
@@ -132,7 +132,7 @@ def _write_mapping_stats(GTF_file, files_process_index, sorted_sam_files,  stats
     stats_output = stats_root + "/" + sample_name + "_{#}.stats"
 
     commands = [] 
-    commands.append("python /homes/ti1/code/git_code/st-method-comparison/generate_mapping_stats.py") 
+    commands.append("python /home/ubuntu/bin/generate_mapping_stats.py") # change  PATH
     commands.append("-i")
     commands.append(sorted_sam_files)
     commands.append("-o")
@@ -224,6 +224,7 @@ def _run_quantification(quantifier, counts_dir, mapping_root, sample_name, files
         #Run selected quantification tool
         if("HTSeq" in quantifier):
             code = execute_htseq(sample_name,quantifier, quant_args, genome, sorted_bam_files, output_counts, files_process_index, log_file, cluster)
+            print(output_file)
             merge(expected_output_counts, output_file,[1], -1)
         elif("cufflinks" in quantifier):
             code = 0
@@ -569,8 +570,6 @@ def exec_star_mapping(mapper, mapper_args, read_length, used_genome, files_index
     log_file1 = mapping_dir + "/" + sample_name + "_%I.mapping.log"
     output_sam_file = mapping_dir + "/" + sample_name + "_{#}" + ConfigSectionMap("EXTENSIONS")['ext_sam']
     commands.append(star)
-    commands.append("--outFileNamePrefix")
-    commands.append(mapping_dir + "/" + sample_name + "_{#}.")
     commands.append("--genomeDir")
     commands.append(genome_dir)
     commands.append("--readFilesIn")
@@ -588,14 +587,13 @@ def exec_star_mapping(mapper, mapper_args, read_length, used_genome, files_index
         f = TEMP.replace("{#}", str(i))
         if(os.path.isdir(f)):
             shutil.rmtree(f)
-    #commands.append("--outTmpDir")
-    #commands.append(TEMP)
+    commands.append("--outTmpDir")
+    commands.append(TEMP)
 
     options = convert_to_default_map_param(mapper_args)
     splice = "-splice" in options
 
     if (splice):
-       commands.append("--sjdbGTFfile")
        commands.append(GTF) 
        options.remove("-splice")
 
@@ -624,13 +622,10 @@ def exec_gmap_mapping(mapper, mapper_args, read_length, used_genome, files_index
     options = convert_to_default_map_param(mapper_args)
     splice = "-splice" in options
     splice_f = genome_dir + "/" + used_genome + ConfigSectionMap("EXTENSIONS")['ext_gsnap_splice']
-    print (splice_f)
     #Only add splice file if not empty. Otherwise gmap results in a weired error
     if(splice == True and os.stat(splice_f).st_size > 0):
         commands.append("-s")
         commands.append(genome_dir + "/" + used_genome)
-        commands.append("-N")
-        commands.append(1)
         options.remove("-splice") 
 
     commands.append(" ".join(options))
@@ -1118,8 +1113,9 @@ def execute(files_process_index, commands, log_file, cluster, speed=False):
     files_process_index = [str(i) for i in files_process_index]
     
     #WRITE COMMAND TO LOG FILE
-    
+
     logging.info("Executed Command: " + " ".join(commands)) # python will convert \n to os.linesep
+
     #CHOSE EITHER OF THE TWO CLUSTERING SYSYEMS
     if (cluster == "ebi"):
         code = run_on_EBI(num_files, files_process_index, commands, log_file, speed)
@@ -1145,7 +1141,7 @@ def run_on_EBI(num_files, files_process_index, commands, log_file, speed=False):
 #        select_statement = "-R \"select[panfs_nobackup_research]\""
         cluster_command.append("bsub")
     
-        ram = "50000"
+        ram = "10000"
         cpu = "2"
         if (speed == True):
             if (args.ram != None):
@@ -1235,70 +1231,47 @@ def run_on_EBI(num_files, files_process_index, commands, log_file, speed=False):
 #REQUIRES THAT A CLUSTER IS ALREADY CREATED AND FILES ARE ALREADY THERE
 #PROBLEM: RESOURCES ARE NOT ALLOCATED PROPERLY AND ALL PROCESSESS GET EXECUTED SIMULATENOUSLY
 def run_on_AWS(files_process_index, commands, log_file):
-    import tempfile
-    import time
-    cluster_command = []
-    #GENERATE COMMAND
-    with tempfile.NamedTemporaryFile(delete=False) as temp:
-        temp.write('#!/bin/bash\n')
-        temp.write('#$ -S /bin/bash\n')
-        temp.write('#$ -cwd\n')
-        temp.write('#$ -j y\n')
-        temp.write('#$ -N ' + os.path.basename(log_file) + "\n")
-        temp.write('#$ -t ' + ",".join(files_process_index)+"\n")
-        resources = []
+        if len(files_process_index[0].split("-")) > 1: # in which case it is not an interval
+            files_process_index=["{"+i.replace("-", "..")+"}" for i in files_process_index] # get the interval into {x..y} syntax
+        # print (files_process_index)
+        commands = [i.replace("{#}", "$1") for i in commands]
+        # print (commands)
+        log_file=log_file.replace("%I", "{}")
+        # print (log_file)
+
+        import time
+        code = 0
+
+        #BUILD COMMAND
+        parallel_command = []
+        parallel_command.append("exec /bin/bash -c '") # sh does not like export -f, so I have to use bash in order to wrap.
+        parallel_command.append("wrapper_func() { ") # to make sure that everything is executed beautifully we wrap it up in a function
+        parallel_command.append(" ".join(commands)) # put in the actual command.
+
+        parallel_command.append("; }; export -f wrapper_func; parallel ") # and close the wrapper and start gnu parallel call
+
+
+
         if (args.ram != None):
-                resources.append('s_vmem=' + args.ram)
-        if (args.cpu != None):
-               resources.append('s_core=' + args.cpu)
-        if (len(resources) > 0):
-                temp.write('#$ -l '+ ",".join(resources))                    
-                temp.write("\n")
-        #print log_file + '\${JOB_ID}.log'
-        temp.write('echo \"job initiated at $(date)\"\n')
-        temp.write(" ".join(commands) + " \n")
-        temp.write('echo \"job ended at $(date)\"\n')
-        temp.flush()
-
-        #RUN COMMAND        
-        cluster_command.append("qsub")
-        cluster_command.append(temp.name)
-        proc = subprocess.Popen(cluster_command, stdout=subprocess.PIPE)
-        output = proc.stdout.read()
-        print output
-        job_id_sub=output.split(" ")[2]
-        job_id_sub=job_id_sub.split(".")[0]
-        print "Submitted qsub ID: " + job_id_sub
-    
-    #CHECK STATUS
-    not_done = True
-    while (not_done):
-        cluster_command = []
-        cluster_command.append("qstat")
-        proc = subprocess.Popen(cluster_command, stdout=subprocess.PIPE)
-        output = proc.stdout.read()
-
-        status = output.split("\n")
-        if (len(status) <=2):
-            not_done = False
+            ram = args.ram
         else:
-            status = status[2:len(status)-1]
-            running = []
-            for i in range(0,len(status)):
-                stat =  status[i]
-                des = stat.split()
-                job_id =  des[0]
-                task_id = des[len(des)-1]
-                if (job_id == job_id_sub):
-                    running.append(task_id)
-            if (len(running) == 0):
-                not_done = False
-            else :
-                not_done = True
-                print "Running task-id: \n" + ",".join(running)
-                time.sleep(180)
-                
-    return 0
+            ram = 900
+        if (args.cpu != None):
+            parallel_command.append("-j" + args.cpu)
+
+
+        parallel_command.append("--retries 3") # will try three times to run failed jobs 
+        parallel_command.append("--halt soon,fail=20%") # will stop spawning more jobs if more than 20% of the jobs has failed
+        parallel_command.append("--memfree "+str(ram)+"M") # jobs will not start with <(M)ram mem free, and newest jobs will be killed and requeue when 0.5mem is left
+        parallel_command.append("\"wrapper_func {} > "+ log_file +" 2>&1\" ::: "+ " ".join(files_process_index)+"'") # call the function with the inputs and catch std and err out
+
+        #EXECUTE PROCESS
+        proc = subprocess.Popen(" ".join(parallel_command), stdout=subprocess.PIPE, shell=True)
+        
+        logging.info("Parallel command submitted: " + " ".join(parallel_command))
+        output = proc.communicate() #now wait
+
+        return proc.returncode
 
 ############################################
 ############################################
@@ -1405,7 +1378,6 @@ def collect_input(input_user):
             files_process_index.add(int(cell_num))
             files_index_holder.add(origin_file.replace(index_place_holder, "#{#}"))
         read_length = get_read_length(files[0])
-    
     logging.info("Paired:" + str(paired))
     logging.info("Read-length:" + str(read_length))
     return [files, files_process_index, files_index_holder, paired,read_length]
@@ -1416,8 +1388,8 @@ if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
     group1 = p.add_argument_group('Data processing', 'Modules to process your RNA sequencing data')
-    group1.add_argument('-i','--input', help='Input directory')
-    group1.add_argument('-m','--mapping', help='Mapping algorithm')
+    group1.add_argument('-i','--input', help='Input directory', required = True)
+    group1.add_argument('-m','--mapping', help='Mapping algorithm', required = True)
     group1.add_argument('-margs','--mapping_args', help='Mapping algorithm additional arguments', nargs="+")
     group1.add_argument('-q','--quantification', help='Quantification algorithm')
     group1.add_argument('-q_args','--quant_args', help='Quantification algorithm additional arguments', nargs="+")
@@ -1427,13 +1399,13 @@ if __name__ == "__main__":
     group1.add_argument('-g','--genome', help='Reference genome')
     group1.add_argument('-r', '--range', help='Index range to run')
     group2 = p.add_argument_group('Ref index', 'Reference genome index files')
-    group2.add_argument('-f','--fasta', help='Fasta files')
-    group2.add_argument('-gtf', help='Gene annotation file')
+    group2.add_argument('-f','--fasta', help='Full path to fasta files')
+    group2.add_argument('-gtf', help='Full path to gene annotation file')
     
-    p.add_argument('-c', '--config', help='Config file')
+    p.add_argument('-c', '--config', help='Config file', required = True)
     p.add_argument('-ram','--ram')
-    p.add_argument('-cpu','--cpu')
-    p.add_argument('-l', '--cluster', help='Cluster type') 
+    p.add_argument('-cpu','--cpu', help='Number of cpus that each job in the queue is allowed to use. On AWS this number should optimaly be multiple of the number of cores on the instance', required = True)
+    p.add_argument('-l', '--cluster', help='Cluster type', required = True) 
     args = p.parse_args()
     
     Config = ConfigParser.ConfigParser()
