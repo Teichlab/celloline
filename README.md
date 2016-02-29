@@ -65,30 +65,29 @@ EXT_SUMMARY = .stat                 |	*Mapping statistics file extention*
 FORWARD_STRAND = _1                | *Identifier used if analysing paired end reads.*
 REVERSE_STRAND = _2                 | *Identifier used if analysing paired end reads.*
 
+
 [SOFTWARE] | Help
 --- | ---
-GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
-GSNAP_BUILD=/bin/gmap_build       | *-*
-BOWTIE1=/bowtie                   | *-*
-BOWTIE1_BUILD=/bowtie-build       | *-*
-BOWTIE2=/bowtie2                  | *-*
-BOWTIE2_BUILD=/bowtie2-build      | *-*
-BWA=/bwa                          | *-*
-BWA_BUILD=/bwa                    | *-*
-STAR = /source/STAR               | *-*
-STAR_BUILD=/source/STAR           | *-*
-SALMON = /bin/salmon              | *-*
-SALMON_BUILD = /bin/salmon        | *-*
-HTSEQTOOL=/scripts/htseq-count                                     | *give path relative to QUANTIFICATION_ROOT*
-TOPHAT=/tophat2                                                    | *-*
-CUFFLINKS=/cufflinks                                               | *-*
-SAMTOOLS=/homes/ti1/tools/samtools-0.1.19/samtools                 | *-*
-GTF_SPLICE_TOOL = /bin/gtf_splicesites                             | *-*
-GTF_IIT_TOOL = /bin/iit_store                                      | *-*
-PICARD_TOOL = /nfs/research2/teichmann/tools/picard-tools-1.113    | *give full path*
-BAM_2_FASTQ=/homes/ti1/tools/bam2fastq-1.1.0/bam2fastq             | *-*
-
-
+GSNAP=/gsnap 	| *give path relative to MAPPING_ROOT*
+GSNAP_BUILD=/gmap_build 	| *give path relative to MAPPING_ROOT*
+GTF_SPLICE_TOOL = /gtf_splicesites	| *give path relative to MAPPING_ROOT*
+GTF_IIT_TOOL = /iit_store	| *give path relative to MAPPING_ROOT*
+BOWTIE1_BUILD=/bowtie-build	| *give path relative to MAPPING_ROOT*
+BOWTIE1=/bowtie	| *give path relative to MAPPING_ROOT*
+BOWTIE2_BUILD=/bowtie2-build	| *give path relative to MAPPING_ROOT*
+BOWTIE2=/bowtie2	| *give path relative to MAPPING_ROOT*
+BWA_BUILD=/bwa	| *give path relative to MAPPING_ROOT*
+BWA=/bwa	| *give path relative to MAPPING_ROOT*
+STAR_BUILD = /STAR	| *give path relative to MAPPING_ROOT*
+STAR = /STAR	| *give path relative to MAPPING_ROOT*
+TOPHAT = /tophat2	| *give path relative to MAPPING_ROOT*
+SALMON_BUILD = /salmon	| *give path relative to MAPPING_ROOT*
+SALMON = /salmon	| *give path relative to MAPPING_ROOT*
+HTSEQTOOL=htseq-count    | *give path relative to QUANTIFICATION_ROOT*
+CUFFLINKS = /cufflinks    | *give path relative to QUANTIFICATION_ROOT*
+PICARD_TOOL = /home/ubuntu/bin/picard-tools-1.113     | *give full path*
+BAM_2_FASTQ =/home/ubuntu/bin/bam2fastq-1.1.0    | *give full path*
+SAMTOOLS = /usr/bin/samtools    | *give full path*
 
 
 
