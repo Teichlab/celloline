@@ -32,16 +32,17 @@ For the most simple running of the pipeline create a directory (eg. /data1/scRNA
 Please refer to the config_example.txt in order to understand the structure. 
 
 [DIRECTORIES]
-ROOT_DIR={path}                     *prefix for input directory. Could be a single cell project directory. Following fastq files must be in {ROOT_DIR}/{INPUT DIRECTORY}/raw/*
-TEMP_DIR={path}                     *all temporary files will be stored here - could be a fast non-backed up drive *
-REF_DIR={path}                      *path to reference genomes should contain directories named according to /{species_name}/{mapper_name} (-g and -m parameters). this can be build uding the. The reference genomes can be build by the pipeline, just requires setting -f parameter*
-TOOLS_MAPPING =                     *path to mapping tools - will be added to path and must thus contain executables in child directories*
-TOOLS_QUANTIFICATION = {path}       *prefix for quantification tools.*
-MAPPING_ROOT = mapped               *prefix for mapping tools*
-QUANTIFICATION_ROOT = counts        *directory name for count data*
-PREPROCESSED_ROOT = preprocessed    *directory name for preprocessed files*
-SORTED_BAM_ROOT = sorted_bam        *directory name for sorted bam files.*
-SAM_ROOT = sam                      *directory name for samfiles*
+--- | ---
+ROOT_DIR={path}                    | *prefix for input directory. Could be a single cell project directory. Following fastq files must be in {ROOT_DIR}/{INPUT DIRECTORY}/raw/\*
+TEMP_DIR={path}                    | *all temporary files will be stored here - could be a fast non-backed up drive *
+REF_DIR={path}                     | *path to reference genomes should contain directories named according to /{species_name}/{mapper_name} (-g and -m parameters). this can be build uding the. The reference genomes can be build by the pipeline, just requires setting -f parameter*
+TOOLS_MAPPING =                    | *path to mapping tools - will be added to path and must thus contain executables in child directories*
+TOOLS_QUANTIFICATION = {path}      | *prefix for quantification tools.*
+MAPPING_ROOT = mapped              | *prefix for mapping tools*
+QUANTIFICATION_ROOT = counts       | *directory name for count data*
+PREPROCESSED_ROOT = preprocessed   | *directory name for preprocessed files*
+SORTED_BAM_ROOT = sorted_bam       | *directory name for sorted bam files.*
+SAM_ROOT = sam                     | *directory name for samfiles*
 
 
 [EXTENSIONS]
@@ -61,30 +62,30 @@ EXT_GSNAP_SPLICE = .splice_sites
 EXT_GSNAP_IIT = .iit
 EXT_DICT = .dict
 EXT_SUMMARY = .stat
-FORWARD_STRAND = _1                 *Identifier used if analysing paired end reads.*
+FORWARD_STRAND = _1                | *Identifier used if analysing paired end reads.*
 REVERSE_STRAND = _2                 
 
 [SOFTWARE]
-GSNAP=/bin/gsnap                    * give path relative to MAPPING_ROOT *
-GSNAP_BUILD=/bin/gmap_build         * - *
-BOWTIE1=/bowtie                     * - *
-BOWTIE1_BUILD=/bowtie-build         * - *
-BOWTIE2=/bowtie2                    * - *
-BOWTIE2_BUILD=/bowtie2-build        * - *
-BWA=/bwa                            * - *
-BWA_BUILD=/bwa                      * - *
-STAR = /source/STAR                 * - *
-STAR_BUILD=/source/STAR             * - *
-SALMON = /bin/salmon                * - *
-SALMON_BUILD = /bin/salmon          * - *
-HTSEQTOOL=/scripts/htseq-count                                      * give path relative to QUANTIFICATION_ROOT *
-TOPHAT=/tophat2                                                     * - *
-CUFFLINKS=/cufflinks                                                * - *
-SAMTOOLS=/homes/ti1/tools/samtools-0.1.19/samtools                  * - *
-GTF_SPLICE_TOOL = /bin/gtf_splicesites                              * - *
-GTF_IIT_TOOL = /bin/iit_store                                       * - *
-PICARD_TOOL = /nfs/research2/teichmann/tools/picard-tools-1.113     * give full path *
-BAM_2_FASTQ=/homes/ti1/tools/bam2fastq-1.1.0/bam2fastq              * - *
+GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
+GSNAP_BUILD=/bin/gmap_build       | *-*
+BOWTIE1=/bowtie                   | *-*
+BOWTIE1_BUILD=/bowtie-build       | *-*
+BOWTIE2=/bowtie2                  | *-*
+BOWTIE2_BUILD=/bowtie2-build      | *-*
+BWA=/bwa                          | *-*
+BWA_BUILD=/bwa                    | *-*
+STAR = /source/STAR               | *-*
+STAR_BUILD=/source/STAR           | *-*
+SALMON = /bin/salmon              | *-*
+SALMON_BUILD = /bin/salmon        | *-*
+HTSEQTOOL=/scripts/htseq-count                                     | *give path relative to QUANTIFICATION_ROOT*
+TOPHAT=/tophat2                                                    | *-*
+CUFFLINKS=/cufflinks                                               | *-*
+SAMTOOLS=/homes/ti1/tools/samtools-0.1.19/samtools                 | *-*
+GTF_SPLICE_TOOL = /bin/gtf_splicesites                             | *-*
+GTF_IIT_TOOL = /bin/iit_store                                      | *-*
+PICARD_TOOL = /nfs/research2/teichmann/tools/picard-tools-1.113    | *give full path*
+BAM_2_FASTQ=/homes/ti1/tools/bam2fastq-1.1.0/bam2fastq             | *-*
 
 
 
