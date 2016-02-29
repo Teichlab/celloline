@@ -62,7 +62,7 @@ EXT_GSNAP_IIT = .iit				|
 EXT_DICT = .dict					|					
 EXT_SUMMARY = .stat                 |
 FORWARD_STRAND = _1                | *Identifier used if analysing paired end reads.*
-REVERSE_STRAND = _2                 
+REVERSE_STRAND = _2                 |
 
 [SOFTWARE] | Help
 GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
