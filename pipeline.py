@@ -131,7 +131,8 @@ def _write_mapping_stats(GTF_file, files_process_index, sorted_sam_files,  stats
     stats_output = stats_root + "/" + sample_name + "_{#}.stats"
 
     commands = [] 
-    commands.append("python ./lib/stats.py") # change  PATH
+    commands.append("python")
+    commands.append(os.path.dirname(sys.argv[0])+ "/lib/stats.py") # change  PATH
     commands.append("-i")
     commands.append(sorted_sam_files)
     commands.append("-o")
@@ -153,7 +154,7 @@ def _write_mapping_stats(GTF_file, files_process_index, sorted_sam_files,  stats
         s += "S_"+str(i) + ","
     s += "S_10+"
 
-    commands.append("cell,total,mapped,unmapped,unique,multi,intergenic,intragenic,exonic,intronic,ambigious,exonicM,alignments,multi-intergenic,multi-intragenic,multi-exonic,multi-intronic,multi-ambigious,perfect,partly_perfect,mapped_no_correct,"+s+",I,D,INDEL")
+    commands.append("cell,total,mapped,unmapped,unique,multi,intergenic,intragenic,exonic,intronic,ambigious,exonic_unique,exonic_multi,alignments,multi-intergenic,multi-intragenic,multi-exonic,multi-intronic,multi-ambigious,perfect,partly_perfect,mapped_no_correct,"+s+",I,D,INDEL")
     commands.append(">")
     commands.append(stats_output_merged)
     proc = subprocess.Popen(" ".join(commands), stdout=subprocess.PIPE, shell=True)
@@ -1384,6 +1385,7 @@ def collect_input(input_user):
 if __name__ == "__main__":
     # process command line args
     # TODO make a switch for various datatypes using **kwargs
+
     import argparse
     p = argparse.ArgumentParser()
     group1 = p.add_argument_group('Data processing', 'Modules to process your RNA sequencing data')

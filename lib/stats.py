@@ -71,18 +71,21 @@ def generate_mapping_stats(input_file, output_file, gtf_file, sample_name, count
     output_table["multi"] = 0
     
 
-    #Transcript-annotated frequ
+    #CODING VERSUS NON-CODING REGIONS
     output_table["intergenic"] = 0
     output_table["intragenic"] = 0
     output_table["exonic"] = 0
     output_table["intronic"] = 0
     output_table["ambigious"] = 0
+
+    #CODING REGIONS MAPPABILITY
+    output_table["exonicU"] = 0
     output_table["exonicM"] = 0
 
+    #ALIGNMENT CODING VS NONCODING
     output_table["alignments"] = 0
     output_table["multi-intergenic"] = 0
     output_table["multi-intragenic"] = 0
-
     output_table["multi-exonic"]=0
     output_table["multi-intronic"]=0
     output_table["multi-ambigious"]=0
@@ -101,7 +104,6 @@ def generate_mapping_stats(input_file, output_file, gtf_file, sample_name, count
     reads = Counter()
     multi_reads = defaultdict(str)
 
-    exonic_multi_output = open(output_file+".exonic",'w')    
     #SAM PARSE SAM FILE
     for sam in sam_files:
         print("Parsing sam file...")
@@ -166,6 +168,7 @@ def generate_mapping_stats(input_file, output_file, gtf_file, sample_name, count
                                     output_table["intronic"] += 1
                                 else:
                                     output_table["exonic"] += 1 
+                                    output_table["exonicU"] += 1
                                     d = []
                                     if (name_and_flag in exonic_mappings_temp):
                                         d = exonic_mappings_temp[name_and_flag]
@@ -178,6 +181,7 @@ def generate_mapping_stats(input_file, output_file, gtf_file, sample_name, count
                         else:
                             if(reads[name_and_flag] == 1):
                                 output_table["unique"] -= 1
+                                output_table["exonicU"] -= 1
                                 output_table["multi"] += 1
                             reads[name_and_flag] += 1
                             d = []
@@ -234,7 +238,6 @@ def generate_mapping_stats(input_file, output_file, gtf_file, sample_name, count
                              output_table["INDEL"] += 1
 
   
-    exonic_multi_output.close() 
     #WHEIGHT COUNTS  
     if (count):
         counts, counts_unique, counts_multi = weight_counts(reads_mapped_to)
@@ -251,7 +254,7 @@ def write_stats(output_file, stats_table, o):
     #OUTPUT STATS
     f = open(output_file,'w')
     for k,v in stats_table.items():
-        if (str(k) in ["unique", "multi", "intragenic", "intergenic", "exonic", "intronic", "ambigious", "exonicM"]):
+        if (str(k) in ["unique", "multi", "intragenic", "intergenic", "exonic", "intronic", "ambigious", "exonicM", "exonicU"]):
             v = (v+0.0) / (stats_table["mapped"]+0.0)
             v = '%.2f' % (100.0*(v))
         if (str(k) in ["multi-intragenic", "multi-intergenic", "multi-exonic", "multi-intronic", "multi-ambigious"]):
