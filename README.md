@@ -45,24 +45,24 @@ SORTED_BAM_ROOT = sorted_bam       | *directory name for sorted bam files.*
 SAM_ROOT = sam                     | *directory name for samfiles*
 										
 [EXTENSIONS] | Help								
-EXT_BAM = .bam						|				
-EXT_FASTQ= .fq						|				
-EXT_FASTQ_GZ = .fq.gz				|						
-EXT_SAM = .sam						|				
-EXT_SORTED = .sorted				|						
-EXT_COUNTS = .counts				|						
-EXT_METRICS = .metrics				|						
-EXT_MERGED = .merged				|						
-EXT_MARKED_DUPL= .marked.duplicates	|									
-EXT_FASTA = .fa						|				
-EXT_LOG = .log						|				
-EXT_GTF= .gtf						|				
-EXT_GSNAP_SPLICE = .splice_sites	|									
-EXT_GSNAP_IIT = .iit				|						
-EXT_DICT = .dict					|					
-EXT_SUMMARY = .stat                 |
+EXT_BAM = .bam						| 	*bam file extention*
+EXT_FASTQ= .fq						|	*fastq file extention*
+EXT_FASTQ_GZ = .fq.gz				|	*compressed fastq file extention*	
+EXT_SAM = .sam						|	*sam file extention*
+EXT_SORTED = .sorted				|	*sorted file extention*
+EXT_COUNTS = .counts				|	*count file extention*
+EXT_METRICS = .metrics				|	*metrics file extention*
+EXT_MERGED = .merged				|	*merge file extention*
+EXT_MARKED_DUPL= .marked.duplicates	|	*dublicate file extention*
+EXT_FASTA = .fa						|	*FASTA file extention*
+EXT_LOG = .log						|	*log file extention*
+EXT_GTF= .gtf						|	*gtf file extention*
+EXT_GSNAP_SPLICE = .splice_sites	|	*Gsnap splice file extention*
+EXT_GSNAP_IIT = .iit				|	*GSNAP iit file extention*
+EXT_DICT = .dict					|	*genome dictionary file extention*
+EXT_SUMMARY = .stat                 |	*Mapping statistics file extention*
 FORWARD_STRAND = _1                | *Identifier used if analysing paired end reads.*
-REVERSE_STRAND = _2                 |
+REVERSE_STRAND = _2                 | *Identifier used if analysing paired end reads.*
 
 [SOFTWARE] | Help
 GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
