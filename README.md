@@ -31,7 +31,7 @@ For the most simple running of the pipeline create a directory (eg. /data1/scRNA
 ## The config file explained
 Please refer to the config_example.txt in order to understand the structure. 
 
-[DIRECTORIES]
+[DIRECTORIES] | 
 --- | ---
 ROOT_DIR={path}                    | *prefix for input directory. Could be a single cell project directory. Following fastq files must be in {ROOT_DIR}/{INPUT DIRECTORY}/raw/\*
 TEMP_DIR={path}                    | *all temporary files will be stored here - could be a fast non-backed up drive *
@@ -43,7 +43,6 @@ QUANTIFICATION_ROOT = counts       | *directory name for count data*
 PREPROCESSED_ROOT = preprocessed   | *directory name for preprocessed files*
 SORTED_BAM_ROOT = sorted_bam       | *directory name for sorted bam files.*
 SAM_ROOT = sam                     | *directory name for samfiles*
-
 
 [EXTENSIONS]
 EXT_BAM = .bam
