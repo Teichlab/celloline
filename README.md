@@ -31,7 +31,7 @@ For the most simple running of the pipeline create a directory (eg. /data1/scRNA
 ## The config file explained
 Please refer to the config_example.txt in order to understand the structure. 
 
-[DIRECTORIES] | " "
+[DIRECTORIES] | Help
 --- | ---
 ROOT_DIR={path}                    | *prefix for input directory. Could be a single cell project directory. Following fastq files must be in {ROOT_DIR}/{INPUT DIRECTORY}/raw/\*
 TEMP_DIR={path}                    | *all temporary files will be stored here - could be a fast non-backed up drive *
@@ -43,28 +43,28 @@ QUANTIFICATION_ROOT = counts       | *directory name for count data*
 PREPROCESSED_ROOT = preprocessed   | *directory name for preprocessed files*
 SORTED_BAM_ROOT = sorted_bam       | *directory name for sorted bam files.*
 SAM_ROOT = sam                     | *directory name for samfiles*
-
-[EXTENSIONS]
-EXT_BAM = .bam
-EXT_FASTQ= .fq
-EXT_FASTQ_GZ = .fq.gz
-EXT_SAM = .sam
-EXT_SORTED = .sorted
-EXT_COUNTS = .counts
-EXT_METRICS = .metrics
-EXT_MERGED = .merged
-EXT_MARKED_DUPL= .marked.duplicates
-EXT_FASTA = .fa
-EXT_LOG = .log
-EXT_GTF= .gtf
-EXT_GSNAP_SPLICE = .splice_sites
-EXT_GSNAP_IIT = .iit
-EXT_DICT = .dict
-EXT_SUMMARY = .stat
+										
+[EXTENSIONS] | Help								
+EXT_BAM = .bam						|				
+EXT_FASTQ= .fq						|				
+EXT_FASTQ_GZ = .fq.gz				|						
+EXT_SAM = .sam						|				
+EXT_SORTED = .sorted				|						
+EXT_COUNTS = .counts				|						
+EXT_METRICS = .metrics				|						
+EXT_MERGED = .merged				|						
+EXT_MARKED_DUPL= .marked.duplicates	|									
+EXT_FASTA = .fa						|				
+EXT_LOG = .log						|				
+EXT_GTF= .gtf						|				
+EXT_GSNAP_SPLICE = .splice_sites	|									
+EXT_GSNAP_IIT = .iit				|						
+EXT_DICT = .dict					|					
+EXT_SUMMARY = .stat                 |
 FORWARD_STRAND = _1                | *Identifier used if analysing paired end reads.*
 REVERSE_STRAND = _2                 
 
-[SOFTWARE]
+[SOFTWARE] | Help
 GSNAP=/bin/gsnap                  | *give path relative to MAPPING_ROOT*
 GSNAP_BUILD=/bin/gmap_build       | *-*
 BOWTIE1=/bowtie                   | *-*
