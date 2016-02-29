@@ -205,6 +205,7 @@ def _run_quantification(quantifier, counts_dir, mapping_root, sample_name, files
     output_file = quant_output_dir + "/" + sample_name + "_" + quantifier.replace(".", "_")  + ConfigSectionMap("EXTENSIONS")['ext_counts']
     #If doesn't exist, create dir and run
     if(pre_checks(expected_output_counts) == False or overwrite == True or os.path.exists(output_file)==False):
+    if(pre_checks(expected_output_counts) == False or overwrite == True):
         make_dir(quant_output_dir)
         
         #Check if required sorted bam files exist
@@ -1227,9 +1228,6 @@ def run_on_EBI(num_files, files_process_index, commands, log_file, speed=False):
     
         return code
 
-#RUN PIPELINE ON AWS CLUSTERING SYSTEM
-#REQUIRES THAT A CLUSTER IS ALREADY CREATED AND FILES ARE ALREADY THERE
-#PROBLEM: RESOURCES ARE NOT ALLOCATED PROPERLY AND ALL PROCESSESS GET EXECUTED SIMULATENOUSLY
 def run_on_AWS(files_process_index, commands, log_file):
         if len(files_process_index[0].split("-")) > 1: # in which case it is not an interval
             files_process_index=["{"+i.replace("-", "..")+"}" for i in files_process_index] # get the interval into {x..y} syntax
