@@ -1,11 +1,9 @@
-# Celloline: Quality control of single cell RNA sequencing data
+# Celloline: A pipeline for mapping and quality assessment single cell RNA-seq data
 
-
-##A pipeline for mapping and quality assessment single cell RNA-seq data
 `Celloline` is a pipeline that handles parallel mapping and quantification of single cell RNA-seq, using standard mapping tools and quantifiers. 
 
 # Availability
-The pipeline is available at: [gitHub](https://github.com/ti243/celloline) and as an instance on Amazon, where 3rd party tools and programs have been preinstalled. 
+The pipeline is available at: [gitHub](https://github.com/ti243/celloline) and as an machine image on Amazon, where 3rd party tools and programs have been preinstalled. This image can be used on the Amazon cloud or exported for several platforms of virtual machines [See later sections](#Running the celluline pipeline on the pre-installed Amazon machine image (AMI)).
 
 # Key features
 * `Celloline` maps and quantify data from single cell RNA-seq experiments in parallel.
@@ -108,7 +106,7 @@ SAMTOOLS = /usr/bin/samtools    | *give full path*
 
 
 
-#Running the celluline pipeline on the pre-installed Amazon instance (AMI). 
+#Running the celluline pipeline on the pre-installed Amazon machine image (AMI)
 
 In order to use the amazon instance you need to setup an AWS account [AMAZON AWS](https://aws.amazon.com). This requires a credit card number and a phone number for verification. There is a free trial for all new registrants, to try out the service, and institutions with teaching responsibilities might be eligible for further free credits. The AMI can also be exported as a VMware image for use on local clusters. [See Amazons guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExportingEC2Instances.html)
 
@@ -153,9 +151,9 @@ Here, the reference genomes are stored. On the AMI fasta and gtf-files for the m
 ###temp
 This is the directory where temporary files are stored. This presently includes count-matices and statistics. This directory should be able to contain mapping and quantification output from all cells, and is better placed on a fast storage device with larger capacity (e.g. Amazon EBS), when running the pipeline on full size files. Many files in the temporary directory maybe deleted after run, for storage space considerations.
 
-# Using your own data
+# Processing your own data on Amazon
 We suggest to run a files each with a few milion reads though though the pipeline first to test using the smallest possible instance type (t2.large)
-When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one. Please be aware that all other instances than t2 are charged per hour, regardless of whether the CPUs are working.
+When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one or a cluster of multiple. Please be aware that all other instances than t2 are charged per hour when running, regardless of whether the CPUs are working or not.
 
 
 
