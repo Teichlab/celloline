@@ -34,11 +34,11 @@ The diagram below provides an overview of the functionallity of `celloline` and 
 The pipeline can be run from our Amazon instance or by installing the the pipeline and 3rd party tools from 
 For the most simple running of the pipeline create a directory (eg. /data1/scRNAdata/MouseKO/) for running of the pipeline. Store fastq files in a directory called "raw" (/data1/scRNAdata/MouseKO/raw). Store a fasta file and a gtf files of the reference gennome (e.g. /data1/reference_genomes/mm9.fasta, /data1/reference_genomes/mm9.gtf). Set appropriate paths in the config file (see config_example.txt)
 
-# A word on 
+### Naming of files
 From the provided data path (input dir relative to provided root - see config file) the pipeline expects a directory named "raw" containing all the files in the experiment.
 Files should be named with a hash and a number, that identifies the cell. e.g. for cell number 45. 
 SingleCell/#45_1.fq
-The two latter "_1" and ".fq" are identifiers for paired read number and fastq-file extention, respectively; and can be set in the config file.
+The two latter "_1" and ".fq" are identifiers for paired read number and fastq-file extention, respectively; and can be set in the config file. Some lines of code as inspiration for renaming or linking to your files can be found in [here](lib/prepare_filename_pointers.sh) 
 
 
 
@@ -110,7 +110,7 @@ SAMTOOLS = /usr/bin/samtools    | *give full path*
 
 In order to use the amazon instance you need to setup an AWS account [AMAZON AWS](https://aws.amazon.com). This requires a credit card number and a phone number for verification. There is a free trial for all new registrants, to try out the service, and institutions with teaching responsibilities might be eligible for further free credits. The AMI can also be exported as a VMware image for use on local clusters. [See Amazons guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExportingEC2Instances.html). The cluster installation has been tested to work with gmap, bowtie2, and STAR, using quantifyers HTSeq and cufflinks.
 
-The AWS instance handles jobs via [GNU parallel](http://www.gnu.org/software/parallel/), and this job handling (pipeline parameter --cluster aws) is also well suited for dedicated servers, instances or farms which are not dependent on LSF queueing systems using bsub.
+The AWS instance handles jobs via [GNU parallel](http://www.gnu.org/software/parallel/), and this job handling (pipeline parameter --cluster aws) is also well suited for dedicated servers, instances or farms which are not dependent on LSF queueing systems using bsub. Please cite parallel appropriately, as asked on the website.
 
 After creating a AWS profile go to the console and choose ES2 and "Launch Instance" and then Community AMIs, where you search for celloline.
 
