@@ -1,31 +1,48 @@
-# scRNA_QC
-Quality control of single cell RNA sequencing data
+# Celloline: Quality control of single cell RNA sequencing data
 
 
-A pipeline for mapping and quality assessment single cell RNA-seq data
+##A pipeline for mapping and quality assessment single cell RNA-seq data
+`Celloline` is a pipeline that handles parallel mapping and quantification of single cell RNA-seq, using standard mapping tools and quantifiers. 
+
+# Availability
+The pipeline is available at: [gitHub](https://github.com/ti243/celloline) and as an instance on Amazon, where 3rd party tools and programs have been preinstalled. 
+
+# Key features
+* `Celloline` maps and quantify data from single cell RNA-seq experiments in parallel.
+* `Celloline` allows for quick re-running the mapping, statistics collection and quantification on new experiments, with a change of one parameter.
+* `Celloline` allows for quck testing optimal mapper and quantification tool for your experiment, and out puts your results in a uniform fasion.
 
 ### See usage and parameters by typing:
-python pipeline_master.py -h 
+python pipeline.py -h 
 
 ### What you need to run the program:
-Directory of single cell sequencing data (parameter -i)
-Mapping tool (parameter -m) - at least one of: bowtie, bowtie2, STAR, BWA, gsnap, salmon
-Reference genome - either an index that fits the mapping tool (parameter -g) or as fasta and gtf (use -f and -gtf)
-Quantification tool - at least one of: Tophat (run with bowtie or bowtie2), htseq-count or cufflinks 
-Ulitity tools: samtools, gtf_splicesites, iit_store, picard-tools, bam2fastq, iit_store
-R (with access to the internet for library installation and access to biomarRt)
+* Directory of single cell sequencing data (parameter -i)
+* Mapping tool (parameter -m) - at least one of: bowtie, bowtie2, STAR, BWA, gsnap, salmon
+* Reference genome - either an index that fits the mapping tool (parameter -g) or as fasta and gtf (use -f and -gtf)
+* Quantification tool - at least one of: Tophat (run with bowtie or bowtie2), htseq-count or cufflinks 
+* Ulitity tools: samtools, gtf_splicesites, iit_store, picard-tools, bam2fastq, iit_store
+
 
 <!--- list is to be continued - provide links to 3rd party tools -->
 
+## `celloline` workflow
+
+The diagram below provides an overview of the functionallity of `celloline` and its partner tool `cellity`(https://github.com/ti243/cellity).
+
+![Diagram outlining the celloline workflow](celloline/inst/cellity_overview.png)
 
 
-# Running the program
+# Getting started
+The pipeline can be run from our Amazon instance or by installing the the pipeline and 3rd party tools from 
+For the most simple running of the pipeline create a directory (eg. /data1/scRNAdata/MouseKO/) for running of the pipeline. Store fastq files in a directory called "raw" (/data1/scRNAdata/MouseKO/raw). Store a fasta file and a gtf files of the reference gennome (e.g. /data1/reference_genomes/mm9.fasta, /data1/reference_genomes/mm9.gtf). Set appropriate paths in the config file (see config_example.txt)
+
+# A word on 
 From the provided data path (input dir relative to provided root - see config file) the pipeline expects a directory named "raw" containing all the files in the experiment.
 Files should be named with a hash and a number, that identifies the cell. e.g. for cell number 45. 
 SingleCell/#45_1.fq
 The two latter "_1" and ".fq" are identifiers for paired read number and fastq-file extention, respectively; and can be set in the config file.
 
-For the most simple running of the pipeline create a directory (eg. /data1/scRNAdata/MouseKO/) for running of the pipeline. Store fastq files in a directory called "raw" (/data1/scRNAdata/MouseKO/raw). Store a fasta file and a gtf files of the reference gennome (e.g. /data1/reference_genomes/mm9.fasta, /data1/reference_genomes/mm9.gtf). Set appropriate paths in the config file (see config_example.txt)
+
 
 
 ## The config file explained
