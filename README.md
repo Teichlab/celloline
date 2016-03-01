@@ -108,11 +108,11 @@ SAMTOOLS = /usr/bin/samtools    | *give full path*
 
 #Running the celluline pipeline on the pre-installed Amazon machine image AMI
 
-In order to use the amazon instance you need to setup an AWS account [AMAZON AWS](https://aws.amazon.com). This requires a credit card number and a phone number for verification. There is a free trial for all new registrants, to try out the service, and institutions with teaching responsibilities might be eligible for further free credits. The AMI can also be exported as a VMware image for use on local clusters. [See Amazons guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExportingEC2Instances.html)
+In order to use the amazon instance you need to setup an AWS account [AMAZON AWS](https://aws.amazon.com). This requires a credit card number and a phone number for verification. There is a free trial for all new registrants, to try out the service, and institutions with teaching responsibilities might be eligible for further free credits. The AMI can also be exported as a VMware image for use on local clusters. [See Amazons guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExportingEC2Instances.html). The cluster installation has been tested to work with gmap, bowtie2, and STAR, using quantifyers HTSeq and cufflinks.
 
 The AWS instance handles jobs via [GNU parallel](http://www.gnu.org/software/parallel/), and this job handling (pipeline parameter --cluster aws) is also well suited for dedicated servers, instances or farms which are not dependent on LSF queueing systems using bsub.
 
-After creating a profile go to the console and choose ES2 and "Launch Instance" and then Community AMIs, where you search for celloline.
+After creating a AWS profile go to the console and choose ES2 and "Launch Instance" and then Community AMIs, where you search for celloline.
 
 ##Running the pipeline with test data.
 We advice that you always try the pipeline with a small toy set for testing that everything works. This could be a subset of the cells and only the first few thousand reads. This can ususlly be run on the cheap t2.large instance, and will make sure that everything runs before upgrading the instance.
@@ -131,6 +131,8 @@ pipeline.py -m gmap -g chr9_fa -c /home/ubuntu/projects/example/config.txt -q ht
 This is the same command without the genome fasta and gtf-file. Note that the genome will substitute /"./" with "_" so that chr9.fa becomes a genome called chr9_fa.
 
 It means: The pipeline will use the mapper *gmap* with the geome called *chr9_fa* with the configuration file */home/ubuntu/projects/example/config.tx*, quantification tool *htseq-count* using the *example* project and the GNU parallel job-handler (*aws*) requiring 10 mb of RAM free before starting new jobs on the server and allows for using 2 cpus for each job. 
+
+You will find your statistics, mapped files and counts in the specified temp directory.
 
 ## The AMI is structured as follows:
 The configuration-file that you provide on runing the pipeline determine where the pipline will look for and also store files. It will be neccesary to attach more storage to the instance, when using full size files. For this purpose the setting of these directories in the top if th config is handy. Alternatively symbolic links can be used to achieve the same. In order to learn how to attach storage to the instance [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html)
@@ -153,7 +155,7 @@ This is the directory where temporary files are stored. This presently includes 
 
 # Processing your own data on Amazon
 We suggest to run a files each with a few milion reads though though the pipeline first to test using the smallest possible instance type (t2.large)
-When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one or a cluster of multiple. Please be aware that all other instances than t2 are charged per hour when running, regardless of whether the CPUs are working or not.
+When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one or a [cluster](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/create_cluster.html) of multiple. Please be aware that all other instances than t2 are charged per hour when running, regardless of whether the CPUs are working or not.
 
 
 
