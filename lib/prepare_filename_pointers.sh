@@ -29,5 +29,5 @@ export -f link
 # it will print a list of old and new names. Save this list in order to be able to reidentify your cells.
 # seq is the bash command that will make the numbers for the files. Do change the path/regex/glob according to where your files are.
 # add --dry-run parameter to parallel (before "link") to see the effect - but without actually doing it.
-# parallel is available at 
+# parallel is available at (http://www.gnu.org/software/parallel/). Please cite accordingly. 
 parallel -j16 -k --xapply link ::: $(seq 1 `ls ./**/raw/*.fq | wc -l`) ::: `ls ./**/raw/*.fq`
