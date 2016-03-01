@@ -27,7 +27,7 @@ python pipeline.py -h
 
 The diagram below provides an overview of the functionallity of `celloline` and its partner tool `cellity`(https://github.com/ti243/cellity).
 
-![Diagram outlining the celloline workflow](celloline/inst/cellity_overview.png)
+![Diagram outlining the celloline workflow](inst/cellity_overview.png)
 
 
 # Getting started
