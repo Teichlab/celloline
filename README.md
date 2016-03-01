@@ -130,7 +130,7 @@ Thereafter run the pipeline
 pipeline.py -m gmap -g chr9_fa -c /home/ubuntu/projects/example/config.txt -q htseq-count -i example --cluster aws --ram 10 -cpu 2
 ```
 
-This is the same command without the genome fasta and gtf-file.
+This is the same command without the genome fasta and gtf-file. Note that the genome will substitute /"./" with "_" so that chr9.fa becomes a genome called chr9_fa.
 
 It means: The pipeline will use the mapper *gmap* with the geome called *chr9_fa* with the configuration file */home/ubuntu/projects/example/config.tx*, quantification tool *htseq-count* using the *example* project and the GNU parallel job-handler (*aws*) requiring 10 mb of RAM free before starting new jobs on the server and allows for using 2 cpus for each job. 
 
