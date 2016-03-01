@@ -3,7 +3,7 @@
 `Celloline` is a pipeline that handles parallel mapping and quantification of single cell RNA-seq, using standard mapping tools and quantifiers. 
 
 # Availability
-The pipeline is available at: [gitHub](https://github.com/ti243/celloline) and as an machine image on Amazon, where 3rd party tools and programs have been preinstalled. This image can be used on the Amazon cloud or exported for several platforms of virtual machines [See later sections](#Running the celluline pipeline on the pre-installed Amazon machine image (AMI)).
+The pipeline is available at: [gitHub](https://github.com/ti243/celloline) and as an machine image on Amazon, where 3rd party tools and programs have been preinstalled. This image can be used on the Amazon cloud or exported for several platforms of virtual machines [See later sections](#Running the celluline pipeline on the pre-installed Amazon machine image AMI).
 
 # Key features
 * `Celloline` maps and quantify data from single cell RNA-seq experiments in parallel.
@@ -106,7 +106,7 @@ SAMTOOLS = /usr/bin/samtools    | *give full path*
 
 
 
-#Running the celluline pipeline on the pre-installed Amazon machine image (AMI)
+#Running the celluline pipeline on the pre-installed Amazon machine image AMI
 
 In order to use the amazon instance you need to setup an AWS account [AMAZON AWS](https://aws.amazon.com). This requires a credit card number and a phone number for verification. There is a free trial for all new registrants, to try out the service, and institutions with teaching responsibilities might be eligible for further free credits. The AMI can also be exported as a VMware image for use on local clusters. [See Amazons guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExportingEC2Instances.html)
 
