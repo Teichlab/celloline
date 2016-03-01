@@ -132,7 +132,7 @@ pipeline.py -m gmap -g chr9_fa -c /home/ubuntu/projects/example/config.txt -q ht
 
 This is the same command without the genome fasta and gtf-file.
 
-The pipeline will use the mapper *gmap* with the geome called *chr9_fa* with the configuration file */home/ubuntu/projects/example/config.tx*, quantification tool *htseq-count* using the *example* project and the GNU parallel job-handler (*aws*) requiring 10 mb of RAM free before starting new jobs on the server and allows for using 2 cpus for each job. 
+It means: The pipeline will use the mapper *gmap* with the geome called *chr9_fa* with the configuration file */home/ubuntu/projects/example/config.tx*, quantification tool *htseq-count* using the *example* project and the GNU parallel job-handler (*aws*) requiring 10 mb of RAM free before starting new jobs on the server and allows for using 2 cpus for each job. 
 
 ## The AMI is structured as follows:
 The configuration-file that you provide on runing the pipeline determine where the pipline will look for and also store files. It will be neccesary to attach more storage to the instance, when using full size files. For this purpose the setting of these directories in the top if th config is handy. Alternatively symbolic links can be used to achieve the same. In order to learn how to attach storage to the instance [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html)
@@ -154,8 +154,8 @@ Here, the reference genomes are stored. On the AMI fasta and gtf-files for the m
 This is the directory where temporary files are stored. This presently includes count-matices and statistics. This directory should be able to contain mapping and quantification output from all cells, and is better placed on a fast storage device with larger capacity (e.g. Amazon EBS), when running the pipeline on full size files. Many files in the temporary directory maybe deleted after run, for storage space considerations.
 
 # Using your own data
-We suggest to run a few files though the pipeline, create index files etc. using the smallest possible instance type ()
-When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use the smallest possible instance (usuly) for making index and copying files and then later upgrade the instance to a larger one.
+We suggest to run a files each with a few milion reads though though the pipeline first to test using the smallest possible instance type (t2.large)
+When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one. Please be aware that all other instances than t2 are charged per hour, regardless of whether the CPUs are working.
 
 
 
