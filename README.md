@@ -37,7 +37,7 @@ For the most simple running of the pipeline create a directory (eg. /data1/scRNA
 ### Naming of files
 From the provided data path (input dir relative to provided root - see config file) the pipeline expects a directory named "raw" containing all the files in the experiment.
 Files should be named with a hash and a number, that identifies the cell. e.g. for cell number 45. 
-SingleCell/#45_1.fq
+SingleCell#45_1.fq
 The two latter "_1" and ".fq" are identifiers for paired read number and fastq-file extention, respectively; and can be set in the config file. Some lines of code as inspiration for renaming or linking to your files can be found in [here](lib/prepare_filename_pointers.sh) 
 
 
@@ -112,7 +112,7 @@ In order to use the amazon instance you need to setup an AWS account [AMAZON AWS
 
 The AWS instance handles jobs via [GNU parallel](http://www.gnu.org/software/parallel/), and this job handling (pipeline parameter --cluster aws) is also well suited for dedicated servers, instances or farms which are not dependent on LSF queueing systems using bsub. Please cite parallel appropriately, as asked on the website.
 
-After creating a AWS profile go to the console and choose ES2 and "Launch Instance" and then Community AMIs, where you search for celloline.
+After creating a AWS profile go to the console and choose ES2 and "Launch Instance" and then Community AMIs, where you search for celloline. The AMI is on us-west-2 region and has the id ami-a0bb57c0.
 
 ##Running the pipeline with test data.
 We advice that you always try the pipeline with a small toy set for testing that everything works. This could be a subset of the cells and only the first few thousand reads. This can ususlly be run on the cheap t2.large instance, and will make sure that everything runs before upgrading the instance.
@@ -134,7 +134,7 @@ It means: The pipeline will use the mapper *gmap* with the geome called *chr9_fa
 
 You will find your statistics, mapped files and counts in the specified temp directory.
 
-## The AMI is structured as follows:
+## The AMI structure:
 The configuration-file that you provide on runing the pipeline determine where the pipline will look for and also store files. It will be neccesary to attach more storage to the instance, when using full size files. For this purpose the setting of these directories in the top if th config is handy. Alternatively symbolic links can be used to achieve the same. In order to learn how to attach storage to the instance [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html)
 
 ###projects###
@@ -154,7 +154,8 @@ Here, the reference genomes are stored. On the AMI fasta and gtf-files for the m
 This is the directory where temporary files are stored. This presently includes count-matices and statistics. This directory should be able to contain mapping and quantification output from all cells, and is better placed on a fast storage device with larger capacity (e.g. Amazon EBS), when running the pipeline on full size files. Many files in the temporary directory maybe deleted after run, for storage space considerations.
 
 # Processing your own data on Amazon
-We suggest to run a files each with a few milion reads though though the pipeline first to test using the smallest possible instance type (t2.large)
+We suggest to run a files each with a few milion reads though though the pipeline first to test using the smallest possible instance type (t2.large).
+
 When using your own data in the pipeline you will need more storage and will have to attach an [EBS](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html). We suggest to use burstable instances (t2) for making index and copying files and then later upgrade the instance to a larger one or a [cluster](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/create_cluster.html) of multiple. Please be aware that all other instances than t2 are charged per hour when running, regardless of whether the CPUs are working or not.
 
 
